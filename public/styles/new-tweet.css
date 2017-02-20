@@ -1,0 +1,33 @@
+.new-tweet {
+    background: lightgrey;
+    border-radius: 10px;
+    padding: 2em;
+    margin: 10px;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    padding-top: 0;
+}
+
+.new-tweet textarea {
+    vertical-align: center;
+    width: 305px;
+    margin: 15px;
+    height: 100px;
+    padding: 0.5em;
+}
+
+.new-tweet .counter {
+    float: right;
+}
+
+.new-tweet input {
+    float: left;
+}
+
+h2:after {
+    content: ' ';
+    display: block;
+    border: 1px solid;
+    border-radius: .5px;
+}
