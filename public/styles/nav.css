@@ -1,0 +1,43 @@
+#nav-bar {
+    background-color: #00a087;
+    width: 100%;
+    height: 80px;
+    /*border: 0;*/
+    top: 0;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    padding-left: 2em;
+    padding-right: 2em;
+    color: #e8fdff;
+    font-size: 36px;
+    position: fixed;
+    opacity: 1;
+    z-index: 9999;
+}
+
+#nav-bar .logo {
+    width: 80px;
+    height: 80px;
+    padding: 0px;
+    float: left;
+}
+
+#nav-bar .header {
+    line-height: 80px;
+    font-size: 100%;
+    float: left;
+    margin-left: 10px;
+}
+
+.header-content {
+    align-content: center;
+}
+
+
+/*
+.navbar-fixed {
+    top: 0;
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+}*/
