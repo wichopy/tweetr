@@ -9,6 +9,14 @@
     padding-top: 0;
 }
 
+.poscount {
+    color: black;
+}
+
+.negcount {
+    color: red;
+}
+
 .new-tweet textarea {
     vertical-align: center;
     width: 305px;

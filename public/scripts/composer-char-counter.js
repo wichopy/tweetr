@@ -1,15 +1,21 @@
+//below replaces $document.ready().
 $(() => {
-  $("textarea").keypress(function () {
+  $("textarea").keyup(function () {
     // console.log($(".counter").innerHTML = 140 - this.value.length);
     //console.log($(".counter"));
     let counter = $(".counter");
-    console.log($(this).val());
     if ($(this).val().length > 140) {
+      counter.addClass("negcount");
       counter.html(140 - this.value.length);
-      counter.css("color", "red");
+      if (counter.hasClass("poscount")) {
+        counter.removeClass("poscount");
+      }
     } else {
+      counter.addClass("poscount");
       counter.html(140 - this.value.length);
-      counter.css("color", "black");
+      if (counter.hasClass("negcount")) {
+        counter.removeClass("negcount");
+      }
     }
   });
 });
