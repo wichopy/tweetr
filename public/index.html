@@ -6,6 +6,7 @@
     <title>Tweeter - Home Page</title>
 
     <!-- External CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,700,700i" rel="stylesheet">
     <!-- App CSS -->
@@ -21,7 +22,7 @@
     <!-- App JS -->
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
-    <!--<script type="text/javascript" src="/scripts/scripts.js"></script>-->
+    <script type="text/javascript" src="/scripts/scripts.js"></script>
 </head>
 
 <body>
@@ -40,7 +41,7 @@
             <h2>Compose Tweet</h2>
             <form method="POST" action="/tweets/">
                 <textarea name="text" placeholder="What are you humming about?"></textarea>
-                <input type="submit" value="Tweet">
+                <input id='tweet-button' type="submit" value="Tweet">
                 <span class="counter">140</span>
             </form>
         </section>
@@ -49,13 +50,28 @@
                 <header class="card-header">
                     <img src='/images/musk.jpg' class="card-pp">
                     <span class="card-user">Elon Musk </span>
-                    <span class='card-handle'>@handle.</span>
+                    <span class='card-handle'>@elonmusk.</span>
                 </header>
                 <div class="card-content">
-                    <p>sadfna,mn.ksakdfhalkshdfkqqlqlkjahsdfklhsafkhx,mzbxmbvmbv,mzxbcmvbasldfhioeryusdkfhgskjdg,xc,nkjljoasfoiusdaoifyuiowyrioyewoirytoiewrytoiewr</p>
+                    <p>The future of humanity is going to bifurcate in two directions: Either it's going to become multiplanetary, or it's going to remain confined to one planet and eventually there's going to be an extinction event.</p>
                 </div>
                 <footer class="card-footer">
                     5 hours ago
+
+                </footer>
+            </article>
+            <article class="card">
+                <header class="card-header">
+                    <img src='/images/stephc.jpg' class="card-pp">
+                    <span class="card-user">Steph Curry </span>
+                    <span class='card-handle'>@scurry.</span>
+                </header>
+                <div class="card-content">
+                    <p>Three pointers.</p>
+                </div>
+                <footer class="card-footer">
+                    5 days ago
+
                 </footer>
             </article>
             <p>TEXT TEXT TEXT TEXT TEXT TEXT</p>
