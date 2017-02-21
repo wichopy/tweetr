@@ -1,10 +1,10 @@
 .card {
-    background: lightgrey;
+    background: #F0F0F0;
     border-radius: 5px;
     padding: 0em;
     margin: 10px;
     border-style: solid;
-    border-color: #9D9D9D;
+    border-color: #E4E4E4;
     border-width: 1px;
     padding-top: 0;
     opacity: 70%;
@@ -18,13 +18,20 @@
 .card-content {
     background: white;
     height: 150px;
+    /*width: 70%;*/
     vertical-align: initial;
     text-align: center;
-    line-height: 100px;
+    /*line-height: 150px;*/
+    clear: both;
+    border-color: #F0F0F0;
+    border-width: 1px;
+    border-style: solid;
+    word-break: break-all;
 }
 
 .card-footer {
-    background: lightgrey;
+    background: white;
+    border-color: #F0F0F0;
     border-radius: 5px;
     text-align: left;
     padding-left: 1em;
@@ -34,13 +41,11 @@
 }
 
 .card-pp {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     border-radius: 10%;
-    align: top;
-    text-align: top;
-    /*float: left;*/
-    margin: .3em;
+    float: left;
+    margin: .4em;
 }
 
 .card-handle {
@@ -53,11 +58,8 @@
 
 .card-user {
     font-size: 150%;
-    /*clear: left;*/
-    /*text-align: left;*/
     margin: .3em;
-    align: top;
-    text-align: top;
     vertical-align: top;
-    line-height: 50px;
+    line-height: 40px;
+    float: left;
 }
