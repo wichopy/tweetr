@@ -15,6 +15,7 @@
 
 .negcount {
     color: red;
+    font-style: italic;
 }
 
 .new-tweet textarea {
