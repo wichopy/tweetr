@@ -32,7 +32,7 @@ var data = [{
     "content": {
       "text": "If I have seen further it is by standing on the shoulders of giants"
     },
-    "created_at": 1461116232227
+    "created_at": 1487706307431
   },
   {
     "user": {
@@ -116,11 +116,42 @@ function renderTweets(data) {
     $('#tweet-cards').prepend(createTweetElement(data[tweet])); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
   }
 }
+
+function loadTweets() {
+  $.ajax({
+      url: '/tweets/',
+      method: 'GET',
+    })
+    .done(function (data) {
+      console.log("successful retreive");
+      console.log(data);
+      renderTweets(data);
+    });
+}
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
-
-
   //var $tweet = createTweetElement(tweetData);
+  $("form").on("submit", function (event) {
+    event.preventDefault();
+    //console.log($('.new-tweet textarea').val());
+    let textdata = $(this).serialize();
+    console.log(textdata);
+    $.ajax({
+        url: '/tweets/',
+        method: 'POST',
+        data: {
+          text: textdata
+        }
+      })
+      .done(function (data) {
+        console.log("successful send");
+        console.log(data);
+        loadTweets();
+      });
+    // const $newTweet = $('#tweet-button');
+    // $newTweet.on('click', function () {
+    //   console.log("Button pressed, performing AJAX call...");
+    //AJAX takes in a object with keys url,mthod,success
 
-  renderTweets(data);
+  });
 });
