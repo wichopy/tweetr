@@ -62,7 +62,7 @@ var data = [{
     "content": {
       "text": "Es ist nichts schrecklicher als eine tätige Unwissenheit."
     },
-    "created_at": 1461113796368
+    "created_at": 31113796368
   }
 ];
 
@@ -110,16 +110,17 @@ function timeAgo(timestamp) {
 }
 
 function renderTweets(data) {
-
+  // Test / driver code (temporary)
+  //console.log($tweet); // to see what it looks like
+  for (var tweet in data) {
+    $('#tweet-cards').prepend(createTweetElement(data[tweet])); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
+  }
 }
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
 
 
-  var $tweet = createTweetElement(tweetData);
+  //var $tweet = createTweetElement(tweetData);
 
-  // Test / driver code (temporary)
-  console.log($tweet); // to see what it looks like
-  $('#tweet-cards').prepend($tweet); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
-  //renderTweets(data);
+  renderTweets(data);
 });
