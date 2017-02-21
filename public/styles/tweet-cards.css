@@ -10,8 +10,25 @@
     opacity: 70%;
 }
 
+.card:hover {
+    background: grey;
+    border-radius: 5px;
+    padding: 0em;
+    margin: 10px;
+    border-style: solid;
+    border-color: darkgray;
+    border-width: 1px;
+    padding-top: 0;
+    opacity: 100%;
+}
+
 .card-header {
     background: lightgray;
+    border-radius: 5px;
+}
+
+.card-header:hover {
+    background: grey;
     border-radius: 5px;
 }
 
@@ -19,19 +36,46 @@
     background: white;
     height: 150px;
     /*width: 70%;*/
-    vertical-align: initial;
-    text-align: center;
+    /*vertical-align: initial;
+    text-align: center;*/
     /*line-height: 150px;*/
     clear: both;
     border-color: #F0F0F0;
     border-width: 1px;
     border-style: solid;
-    word-break: break-all;
+    word-wrap: break-word;
+    padding: 1em;
+}
+
+.card-content:hover {
+    background: white;
+    height: 150px;
+    /*width: 70%;*/
+    /*vertical-align: initial;
+    text-align: center;*/
+    /*line-height: 150px;*/
+    clear: both;
+    border-color: darkgray;
+    border-width: 1px;
+    border-style: solid;
+    word-wrap: break-word;
+    padding: 1em;
 }
 
 .card-footer {
     background: white;
     border-color: #F0F0F0;
+    border-radius: 5px;
+    text-align: left;
+    padding-left: 1em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    font-size: 70%;
+}
+
+.card-footer:hover {
+    background: white;
+    border-color: darkgray;
     border-radius: 5px;
     text-align: left;
     padding-left: 1em;
