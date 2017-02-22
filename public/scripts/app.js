@@ -65,7 +65,6 @@ var data = [{
     "created_at": 31113796368
   }
 ];
-let cardHover = $('.card');
 
 function createTweetElement(data) {
   timeAgo(data.created_at);
@@ -113,11 +112,10 @@ function timeAgo(timestamp) {
 function renderTweets(data) {
   // Test / driver code (temporary)
   //console.log($tweet); // to see what it looks like
-  for (var tweet in data) {
-    cardHover = $('.card');
-    //console.log(cardHover);
-    $('#tweet-cards').prepend(createTweetElement(data[tweet])); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
-  }
+
+  var tweetsHTML = data.map(createTweetElement); //use map not for loop, less expensive.
+  $('#tweet-cards').prepend(tweetsHTML);
+
 }
 
 function loadTweets() {
@@ -142,32 +140,35 @@ function escape(str) {
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
   loadTweets();
-
   $('.compose-btn').on('click', function () {
     console.log("OPen and Close compose.");
   });
-  cardHover.mouseover(
+  //need to use dynamic listener!
+  $('#tweet-cards').on('mouseenter', '.card',
+
     //hover in function
     //can only use fat arrow if I look at the event, this would return the entire document.
-    function () {
+    function (ev) {
+      console.log("everyday im hovering");
       //console.log(this);
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
           <a href="#"><i class="material-icons">flag</i></a>
           <a href="#"><i class="material-icons">repeat</i></a>
           <a href="#"><i class="material-icons">favorite</i></a>
-          </span>`
-      );
-    }).mouseout(
+          </span>`)
+    });
+  $('#tweet-cards').on('mouseleave', '.card',
     //hover out function
-    function () {
+    function (ev) {
+      console.log("everyday im hovering");
       // console.log(this);
       $(this).find(".tweet-icons").remove();
     }
   );
   //var $tweet = createTweetElement(tweetData);
   $("form").on("submit", function (event) {
-    event.preventDefault();
+    event.preventDefault(); //doesn;t let browser do its actions.
     // console.log($(this));
     // if (!$(this).val()) {
     //   console.log("error blank textarea.");
@@ -179,7 +180,7 @@ $(document).ready(function () {
     // console.log($(this[0].value));
     // console.log($(this).serialize());
     let textdata = $(this).serialize();
-    textdata = escape(textdata);
+    textdata = escape(textdata); //***********not working :()
     console.log(textdata);
     // console.log(textdata.split("=")[1]);
     // textdata[1] = document.createTextNode(textdata.split("=")[1]);
@@ -194,7 +195,8 @@ $(document).ready(function () {
         // console.log("successful send");
         // console.log(data);
         loadTweets();
-      });
+      })
+      .fail(console.error);
     // const $newTweet = $('#tweet-button');
     // $newTweet.on('click', function () {
     //   console.log("Button pressed, performing AJAX call...");

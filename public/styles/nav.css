@@ -35,21 +35,25 @@
 
 .compose-btn {
     float: right;
-    /*line-height: 80px;*/
+    line-height: 40px;
     width: 100px;
-    height: 60px;
+    height: 40px;
     font-size: 50%;
-    vertical-align: -webkit-baseline-middle;
+    /*vertical-align: -webkit-baseline-middle;*/
+    text-align: center;
+    margin-top: 20px;
 }
 
 .compose-btn:hover {
     float: right;
-    /*line-height: 80px;*/
+    line-height: 40px;
     width: 100px;
-    height: 60px;
+    height: 40px;
     font-size: 50%;
     vertical-align: -webkit-baseline-middle;
     background-color: green;
+    text-align: center;
+    margin-top: 20px;
 }
 
 
