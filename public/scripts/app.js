@@ -66,23 +66,6 @@ var data = [{
   }
 ];
 
-function createTweetElement(data) {
-  timeAgo(data.created_at);
-  return `<article class="card">
-                <header class="card-header">
-                    <img src='${data.user.avatars.regular}' class="card-pp">
-                    <span class="card-user">${data.user.name} </span>
-                    <span class='card-handle'>${data.user.handle}</span>
-                </header>
-                <div class="card-content">
-                    <p>${data.content.text}</p>
-                </div>
-                <footer class="card-footer">
-                    ${timeAgo(data.created_at)}
-
-                </footer>
-            </article>`;
-}
 
 function timeAgo(timestamp) {
   let time = new Date() - timestamp; //find time difference between today and posted date.
@@ -109,12 +92,29 @@ function timeAgo(timestamp) {
   }
 }
 
+function createTweetElement(data) {
+  // console.log(data);
+  return `<article class="card">
+            <header class="card-header">
+              <img src='${data.user.avatars.regular}' class="card-pp">
+              <span class="card-user">${data.user.name} </span>
+              <span class='card-handle'>${data.user.handle}</span>
+            </header>
+            <div class="card-content">
+              <p>${data.content.text}</p>
+            </div>
+            <footer class="card-footer">
+              ${timeAgo(data.created_at)}
+            </footer>
+          </article>`;
+}
+
 function renderTweets(data) {
   // Test / driver code (temporary)
   //console.log($tweet); // to see what it looks like
 
   var tweetsHTML = data.map(createTweetElement); //use map not for loop, less expensive.
-  $('#tweet-cards').prepend(tweetsHTML);
+  $('#tweet-cards').html(tweetsHTML);
 
 }
 
@@ -124,10 +124,7 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
-      // console.log("successful retreive");
-      // console.log(data);
       renderTweets(data);
-
     });
 }
 
@@ -149,19 +146,19 @@ $(document).ready(function () {
     //hover in function
     //can only use fat arrow if I look at the event, this would return the entire document.
     function (ev) {
-      console.log("everyday im hovering");
+      // console.log("everyday im hovering");
       //console.log(this);
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
           <a href="#"><i class="material-icons">flag</i></a>
           <a href="#"><i class="material-icons">repeat</i></a>
           <a href="#"><i class="material-icons">favorite</i></a>
-          </span>`)
+        </span>`);
     });
   $('#tweet-cards').on('mouseleave', '.card',
     //hover out function
     function (ev) {
-      console.log("everyday im hovering");
+      // console.log("everyday im hovering");
       // console.log(this);
       $(this).find(".tweet-icons").remove();
     }
@@ -180,8 +177,8 @@ $(document).ready(function () {
     // console.log($(this[0].value));
     // console.log($(this).serialize());
     let textdata = $(this).serialize();
-    textdata = escape(textdata); //***********not working :()
-    console.log(textdata);
+    //textdata = escape(textdata); //***********not working :()
+    //console.log(textdata);
     // console.log(textdata.split("=")[1]);
     // textdata[1] = document.createTextNode(textdata.split("=")[1]);
     // console.log(textdata);
@@ -191,12 +188,16 @@ $(document).ready(function () {
         data: textdata
 
       })
-      .done(function (data) {
+      .then((data) => {
         // console.log("successful send");
         // console.log(data);
-        loadTweets();
-      })
-      .fail(console.error);
+        // var newtweet = createTweetElement(data)
+        // console.log(newtweet);
+        // $('#tweet-cards').prepend();
+        $('.new-tweet').find('textarea').val(""); // clear text box after successful post.
+        loadTweets(); //rerender new tweets when finished.
+      });
+    // .catch(console.error);
     // const $newTweet = $('#tweet-button');
     // $newTweet.on('click', function () {
     //   console.log("Button pressed, performing AJAX call...");
