@@ -13,7 +13,9 @@ module.exports = function (DataHelpers) {
         console.log("error getting tweets");
         res.status(500).json({ error: err.message });
       } else {
+
         console.log("successfully retreived tweets");
+        console.log(tweets);
         res.json(tweets);
       }
     });

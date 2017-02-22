@@ -34,7 +34,8 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
       //console.log(tweet);
       alltweets.push(tweet);
     }
-    console.log(alltweets);
+    console.log('finished initial load of tweets');
+    //console.log(alltweets);
     db.close();
   });
 

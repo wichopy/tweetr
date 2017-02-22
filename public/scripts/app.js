@@ -126,8 +126,8 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
-      // console.log("successful retreive");
-      // console.log(data);
+      console.log("successful retreive");
+      //console.log(data);
       renderTweets(data);
 
     });
