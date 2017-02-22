@@ -10,8 +10,11 @@ module.exports = function (DataHelpers) {
   tweetsRoutes.get("/", function (req, res) {
     DataHelpers.getTweets((err, tweets) => {
       if (err) {
+        console.log("error getting tweets");
         res.status(500).json({ error: err.message });
       } else {
+
+
         res.json(tweets);
       }
     });
@@ -22,7 +25,7 @@ module.exports = function (DataHelpers) {
       res.status(400).json({ error: 'invalid request: no data in POST body' });
       return;
     }
-    console.log(req.body);
+    //console.log(req.body);
     const user = req.body.user ? req.body.user : userHelper.generateRandomUser();
     const tweet = {
       user: user,
@@ -34,9 +37,12 @@ module.exports = function (DataHelpers) {
 
     DataHelpers.saveTweet(tweet, (err) => {
       if (err) {
+        console.log("error saving");
         res.status(500).json({ error: err.message });
       } else {
+        console.log("saving worked");
         res.status(201).send();
+
       }
     });
   });

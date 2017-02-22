@@ -124,6 +124,8 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
+      console.log("successful retreive");
+      //console.log(data);
       renderTweets(data);
     });
 }
@@ -176,12 +178,12 @@ $(document).ready(function () {
 
     // console.log($(this[0].value));
     // console.log($(this).serialize());
+    // console.log($(this));
+    // console.log(escape("<script>"));
+    //console.log($(this).find('textarea').val());
+    //ESCAPE form data!
+    $(this).find('textarea').val(escape($(this).find('textarea').val()));
     let textdata = $(this).serialize();
-    //textdata = escape(textdata); //***********not working :()
-    //console.log(textdata);
-    // console.log(textdata.split("=")[1]);
-    // textdata[1] = document.createTextNode(textdata.split("=")[1]);
-    // console.log(textdata);
     $.ajax({
         url: '/tweets/',
         method: 'POST',
@@ -197,11 +199,7 @@ $(document).ready(function () {
         $('.new-tweet').find('textarea').val(""); // clear text box after successful post.
         loadTweets(); //rerender new tweets when finished.
       });
-    // .catch(console.error);
-    // const $newTweet = $('#tweet-button');
-    // $newTweet.on('click', function () {
-    //   console.log("Button pressed, performing AJAX call...");
-    //AJAX takes in a object with keys url,mthod,success
+
 
   });
 });
