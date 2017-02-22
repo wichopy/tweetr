@@ -65,6 +65,7 @@ var data = [{
     "created_at": 31113796368
   }
 ];
+let cardHover = $('.card');
 
 function createTweetElement(data) {
   timeAgo(data.created_at);
@@ -113,6 +114,8 @@ function renderTweets(data) {
   // Test / driver code (temporary)
   //console.log($tweet); // to see what it looks like
   for (var tweet in data) {
+    cardHover = $('.card');
+    console.log(cardHover);
     $('#tweet-cards').prepend(createTweetElement(data[tweet])); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
   }
 }
@@ -123,29 +126,57 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
-      console.log("successful retreive");
-      console.log(data);
+      // console.log("successful retreive");
+      // console.log(data);
       renderTweets(data);
+
     });
 }
+
+
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
+  loadTweets();
+  cardHover.mouseover(
+    //hover in function
+    //can only use fat arrow if I look at the event, this would return the entire document.
+    function () {
+      console.log(this);
+      $(this).find('.card-footer').append(
+        `<span class="tweet-icons">
+          <a href="#"><i class="material-icons">flag</i></a>
+          <a href="#"><i class="material-icons">repeat</i></a>
+          <a href="#"><i class="material-icons">favorite</i></a>
+          </span>`
+      );
+    }).mouseout(
+    //hover out function
+    function () {
+      // console.log(this);
+      $(this).find(".tweet-icons").remove();
+    }
+  );
   //var $tweet = createTweetElement(tweetData);
   $("form").on("submit", function (event) {
     event.preventDefault();
+    // console.log($(this));
+    // if (!$(this).val()) {
+    //   console.log("error blank textarea.");
+    //   throw new Error("blank page!");
+    //   window.alert("blank box!");
+    // }
     //console.log($('.new-tweet textarea').val());
     let textdata = $(this).serialize();
-    console.log(textdata);
+    // console.log(textdata);
     $.ajax({
         url: '/tweets/',
         method: 'POST',
-        data: {
-          text: textdata
-        }
+        data: textdata
+
       })
       .done(function (data) {
-        console.log("successful send");
-        console.log(data);
+        // console.log("successful send");
+        // console.log(data);
         loadTweets();
       });
     // const $newTweet = $('#tweet-button');
