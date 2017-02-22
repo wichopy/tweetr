@@ -115,7 +115,7 @@ function renderTweets(data) {
   //console.log($tweet); // to see what it looks like
   for (var tweet in data) {
     cardHover = $('.card');
-    console.log(cardHover);
+    //console.log(cardHover);
     $('#tweet-cards').prepend(createTweetElement(data[tweet])); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
   }
 }
@@ -133,15 +133,24 @@ function loadTweets() {
     });
 }
 
+function escape(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
 
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
   loadTweets();
+
+  $('.compose-btn').on('click', function () {
+    console.log("OPen and Close compose.");
+  });
   cardHover.mouseover(
     //hover in function
     //can only use fat arrow if I look at the event, this would return the entire document.
     function () {
-      console.log(this);
+      //console.log(this);
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
           <a href="#"><i class="material-icons">flag</i></a>
@@ -166,7 +175,14 @@ $(document).ready(function () {
     //   window.alert("blank box!");
     // }
     //console.log($('.new-tweet textarea').val());
+
+    // console.log($(this[0].value));
+    // console.log($(this).serialize());
     let textdata = $(this).serialize();
+    textdata = escape(textdata);
+    console.log(textdata);
+    // console.log(textdata.split("=")[1]);
+    // textdata[1] = document.createTextNode(textdata.split("=")[1]);
     // console.log(textdata);
     $.ajax({
         url: '/tweets/',

@@ -33,6 +33,25 @@
     align-content: center;
 }
 
+.compose-btn {
+    float: right;
+    /*line-height: 80px;*/
+    width: 100px;
+    height: 60px;
+    font-size: 50%;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.compose-btn:hover {
+    float: right;
+    /*line-height: 80px;*/
+    width: 100px;
+    height: 60px;
+    font-size: 50%;
+    vertical-align: -webkit-baseline-middle;
+    background-color: green;
+}
+
 
 /*
 .navbar-fixed {
