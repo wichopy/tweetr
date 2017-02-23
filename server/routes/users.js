@@ -1,14 +1,14 @@
+// const cookieParser = require('cookie-parser');
+// console.log(cookieSession);
 const express = require('express');
+// const app = express();
 const userRoutes = express.Router();
-const cookieSession = require('cookie-session');
+// app.use(userRoutes);
 const bcrypt = require('bcrypt');
 const rendomString = require('../lib/util/randomString');
-const app = express();
-app.use(cookieSession({
-  keys: ['user_id', 'datevisit'],
-  maxAge: 24 * 60 * 60 * 1000 //expires after 1 day.
-}));
-module.exports = function (db, session) {
+// app.use(cookieParser());
+// app.use(cookieSession());
+module.exports = function (db) {
   //db request for getting users:
   function getUsers(getUsers_cb) {
     db.collection('users').find().toArray((err, users) => {
@@ -44,21 +44,27 @@ module.exports = function (db, session) {
   userRoutes.post("/", function (req, res) {
     console.log('post works!');
     console.log(req.body);
-    login(req.body.email, req.body.password, function (err, valid) {
-      if (err || !valid) {
-        console.log("something went wrong with login");
-      } else {
+    // login(req.body.email, req.body.password, function (err, valid) {
+    //   if (err || !valid) {
+    //     console.log("something went wrong with login");
+    //   } else {
 
-        console.log("login worked!!!");
-        console.log("Creating cookies");
-        console.log(valid);
-        console.log(req);
-        console.log(req.session.user_id);
-        req.session.user_id = valid;
-        res.status(201).send();
-      }
-    })
-    res.status(500).send("login didint work");
+    console.log("login worked!!!");
+    console.log("Creating cookies");
+    // console.log(valid);
+    // console.log(cookieSession);
+    // console.log(req.login);
+    console.log("req.session:");
+    console.log(req.session);
+    // console.log(cookieSession);
+
+    req.session.user_id = '123poi';
+    console.log(req.session.user_id);
+    res.status(201);
+    // }
+    // })
+
+    // res.status(500).send("login didint work");
     // db.users.insertOne(req.body.)
   });
 

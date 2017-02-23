@@ -8,7 +8,11 @@ const PORT = 8080;
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+  keys: ['user_id', 'datevisit'],
+  maxAge: 24 * 60 * 60 * 1000 //expires after 1 day.
+}));
 const morgan = require("morgan");
 app.use(morgan('dev'));
 
