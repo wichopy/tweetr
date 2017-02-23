@@ -164,4 +164,12 @@ $(document).ready(function () {
         });
     }
   });
+  $(document).on('cookieUpdate', function () {
+    console.log("found cookie!");
+    //close menu
+    //add compose button
+    //turn off login button
+    //add logout button
+  });
+  $(document).trigger('cookieUpdate');
 });

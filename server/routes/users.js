@@ -44,27 +44,25 @@ module.exports = function (db) {
   userRoutes.post("/", function (req, res) {
     console.log('post works!');
     console.log(req.body);
-    // login(req.body.email, req.body.password, function (err, valid) {
-    //   if (err || !valid) {
-    //     console.log("something went wrong with login");
-    //   } else {
-
-    console.log("login worked!!!");
-    console.log("Creating cookies");
-    // console.log(valid);
-    // console.log(cookieSession);
-    // console.log(req.login);
-    console.log("req.session:");
-    console.log(req.session);
-    // console.log(cookieSession);
-
-    req.session.user_id = '123poi';
-    console.log(req.session.user_id);
-    res.status(201);
-    // }
-    // })
-
-    // res.status(500).send("login didint work");
+    login(req.body.email, req.body.password, function (err, valid) {
+      if (err || !valid) {
+        console.log("something went wrong with login");
+        res.status(500).send("login didint work");
+      } else {
+        console.log("login worked!!!");
+        console.log("Creating cookies");
+        // console.log(valid);
+        // console.log(cookieSession);
+        // console.log(req.login);
+        console.log("req.session:");
+        console.log(req.session);
+        // console.log(cookieSession);
+        req.session.user_id = '123poi';
+        console.log(req.session.user_id);
+        console.log(res.cookie);
+        res.status(200).send();
+      }
+    });
     // db.users.insertOne(req.body.)
   });
 
