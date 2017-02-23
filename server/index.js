@@ -8,6 +8,21 @@ const PORT = 8080;
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+
+const morgan = require("morgan");
+app.use(morgan('dev'));
+
+
+const methodOverride = require('method-override');
+app.use(methodOverride());
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 //mongodb returns its database connection.
@@ -27,8 +42,10 @@ MongoClient.connect(MONGODB_URI, (err, database) => {
   const DataHelpers = require("./lib/data-helpers.js")(db);
 
   const tweetsRoutes = require("./routes/tweets")(DataHelpers);
+  const userRoutes = require("./routes/users")(db);
 
   app.use("/tweets", tweetsRoutes);
+  app.use("/users", userRoutes);
 
   app.listen(PORT, () => {
     console.log("Example app listening on port " + PORT);

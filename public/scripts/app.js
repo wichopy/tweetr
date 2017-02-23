@@ -122,7 +122,7 @@ $(document).ready(function () {
     }
   );
   //var $tweet = createTweetElement(tweetData);
-  $("form").on("submit", function (event) {
+  $(".new-tweet").on("submit", function (event) {
     event.preventDefault(); //doesn;t let browser do its actions.
     if (!$(this).find('textarea').val()) {
       alert("Put something in before you tweet!");
@@ -131,7 +131,7 @@ $(document).ready(function () {
     } else {
       //ESCAPE form data!
       $(this).find('textarea').val(escape($(this).find('textarea').val()));
-      let textdata = $(this).serialize();
+      let textdata = $(this).find('form').serialize(); //serialize form data! Be careful!
       $.ajax({
           url: '/tweets/',
           method: 'POST',
@@ -142,6 +142,25 @@ $(document).ready(function () {
           composebox.find('textarea').val(""); // clear text box after successful post.
           composebox.find(".counter").html("140");
           loadTweets(); //rerender new tweets when finished.
+        });
+    }
+  });
+  $(".login-body").on("submit", function (ev) {
+    ev.preventDefault();
+    let email = $(this).find("input#email").val();
+    let password = $(this).find("input#password").val();
+    // console.log($(this).find('input#email').val());
+    if (!email || !password) {
+      alert("no username entered or password!");
+    } else {
+      var formdata = $(this).find('form').serialize();
+      $.ajax({
+          url: "/users/",
+          method: "POST",
+          data: formdata
+        })
+        .then((data) => {
+          console.log(`Successful post! this is your response! ${data}`);
         });
     }
   });

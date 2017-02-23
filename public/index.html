@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
     <link rel="stylesheet" href="/styles/tweet-cards.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/modal.css" type="text/css" />
 
     <!-- External JS -->
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
@@ -23,6 +24,7 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
     <script type="text/javascript" src="/scripts/scripts.js"></script>
+    <script type="text/javascript" src="/scripts/modal.js"></script>
 </head>
 
 <body>
@@ -32,6 +34,7 @@
         <div class="header-content">
             <img class="logo" src="/images/bird.png">
             <span class="header">Tweeter</span>
+            <button id="login-register"> Login / Register </button>
             <a href='#' class="compose-btn" type='button'>Compose</a>
         </div>
     </nav>
@@ -75,7 +78,35 @@
             </article>-->
         </div>
     </main>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+            </div>
+            <div class="login-body">
+                <h1>Your door to tweetness </h1>
+                <form method="POST" action="/login">
+                    <div>
+                        <label for="email">email:</label>
+                        <input type="email" id="email" name="email" />
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" />
+                    </div>
+                    <input type="submit" value="Submit" id="submit">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <h3>No account? Why not register an account!!</h3>
+            </div>
+        </div>
+
+    </div>
 </body>
 
 </html>
