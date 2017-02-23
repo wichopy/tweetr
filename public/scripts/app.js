@@ -3,8 +3,6 @@
  * jQuery is already loaded
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
-
-
 function timeAgo(timestamp) {
   let time = new Date() - timestamp; //find time difference between today and posted date.
   time = time / 1000; //convert from milliseconds to seconds.
@@ -48,12 +46,35 @@ function createTweetElement(data) {
 }
 
 function renderTweets(data) {
-  // Test / driver code (temporary)
-  //console.log($tweet); // to see what it looks like
-
   var tweetsHTML = data.map(createTweetElement); //use map not for loop, less expensive.
   $('#tweet-cards').html(tweetsHTML);
-
+  //Some fun tweets for testing.
+  // $('#tweet-cards').prepend(`
+  //           <article class="card">
+  //               <header class="card-header">
+  //                   <img src='/images/musk.jpg' class="card-pp">
+  //                   <span class="card-user">Elon Musk </span>
+  //                   <span class='card-handle'>@elonmusk.</span>
+  //               </header>
+  //               <div class="card-content">
+  //                   <p>The future of humanity is going to bifurcate in two directions: Either it's going to become multiplanetary, or it's going to remain confined to one planet and eventually there's going to be an extinction event.</p>
+  //               </div>
+  //               <footer class="card-footer">
+  //                   5 hours ago
+  //               </footer>
+  //           </article>
+  //           <article class="card">
+  //               <header class="card-header">
+  //                   <img src='/images/stephc.jpg' class="card-pp">
+  //                   <span class="card-user">Steph Curry </span>
+  //                   <span class='card-handle'>@scurry.</span>
+  //               </header>
+  //               <div class="card-content">
+  //                   <p>Three pointers.</p>
+  //               </div>
+  //               <footer class="card-footer">
+  //                   5 days ago
+  //               </footer>`);
 }
 
 function loadTweets() {
@@ -62,17 +83,15 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
-      console.log("successful retreive");
-      //console.log(data);
       renderTweets(data);
     });
 }
 
-// function escape(str) {
-//   var div = document.createElement('div');
-//   div.appendChild(document.createTextNode(str));
-//   return div.innerHTML;
-// }
+function escape(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
 
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
@@ -81,16 +100,14 @@ $(document).ready(function () {
     var composebox = $(".new-tweet");
     composebox.slideToggle();
     composebox.find('textarea').focus();
-
   });
   //need to use dynamic listener!
   $('#tweet-cards').on('mouseenter', '.card',
-
     //hover in function
     //can only use fat arrow if I look at the event, this would return the entire document.
-    function (ev) {
-      // console.log("everyday im hovering");
-      //console.log(this);
+    //tried to use fat arrow but functionality was horrible, icons would not disappear sometimes 
+    //and other times they wouldnt appear at all.
+    function () {
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
           <a href="#"><i class="material-icons">flag</i></a>
@@ -100,25 +117,18 @@ $(document).ready(function () {
     });
   $('#tweet-cards').on('mouseleave', '.card',
     //hover out function
-    function (ev) {
-      // console.log("everyday im hovering");
-      // console.log(this);
+    function () {
       $(this).find(".tweet-icons").remove();
     }
   );
   //var $tweet = createTweetElement(tweetData);
   $("form").on("submit", function (event) {
     event.preventDefault(); //doesn;t let browser do its actions.
-    console.log($(this).find('textarea').val().length);
     if (!$(this).find('textarea').val()) {
-      console.log("Print me if blank");
       alert("Put something in before you tweet!");
     } else if ($(this).find('textarea').val().length > 140) {
-      console.log("Too long!!");
-      console.log($(this).find('textarea').val());
       alert("too long, please decrease your tweet length");
     } else {
-
       //ESCAPE form data!
       $(this).find('textarea').val(escape($(this).find('textarea').val()));
       let textdata = $(this).serialize();
@@ -126,18 +136,13 @@ $(document).ready(function () {
           url: '/tweets/',
           method: 'POST',
           data: textdata
-
         })
         .then((data) => {
-          // console.log("successful send");
-          // console.log(data);
-          // var newtweet = createTweetElement(data)
-          // console.log(newtweet);
-          // $('#tweet-cards').prepend();
-          $('.new-tweet').find('textarea').val(""); // clear text box after successful post.
+          var composebox = $('.new-tweet')
+          composebox.find('textarea').val(""); // clear text box after successful post.
+          composebox.find(".counter").html("140");
           loadTweets(); //rerender new tweets when finished.
         });
-
     }
   });
 });
