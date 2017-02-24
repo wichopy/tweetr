@@ -28,9 +28,9 @@ function timeAgo(timestamp) {
   }
 }
 
-function createTweetElement(data) {
+function createTweetElement(data, likes) {
   // console.log(data);
-  return `<article class="card">
+  return `<article class="card" data-likes="${likes}">
             <header class="card-header">
               <img src='${data.user.avatar}' class="card-pp">
               <span class="card-user">${data.user.name} </span>
@@ -45,8 +45,14 @@ function createTweetElement(data) {
           </article>`;
 }
 
-function renderTweets(data) {
-  var tweetsHTML = data.map(createTweetElement); //use map not for loop, less expensive.
+
+function renderTweets(tweetData, likes) {
+  var tweetsHTML = tweetData.map((tweet) => {
+    var likes = likes.filter((like) => {
+      return like._id === tweet.find()
+    });
+    createTweetElement(tweetData, likes)
+  }); //use map not for loop, less expensive.
   $('#tweet-cards').html(tweetsHTML);
   //Some fun tweets for testing.
   // $('#tweet-cards').prepend(`
@@ -79,13 +85,16 @@ function renderTweets(data) {
 
 function loadTweets() {
   $.ajax({
-      url: '/tweets/',
-      method: 'GET',
-    })
-    .done(function (data) {
-      console.log(data);
-      renderTweets(data.tweets);
-      if (data.cookie) {
+    url: '/tweets/',
+    method: 'GET'
+  }).done((tweetData) => {
+    $.ajax({
+      url: "/likes/",
+      method: "GET"
+    }).done((likes) => {
+      // console.log(data);
+      renderTweets(tweetData.tweets, likes);
+      if (tweetData.cookie) {
         $("#login-register").hide();
         $(".new-tweet").show(2000);
         $('#logout').show();
@@ -93,9 +102,9 @@ function loadTweets() {
         $(".compose-btn").hide()
         $(".new-tweet").hide();
         $("#logout").hide();
-
       }
     });
+  });
 }
 
 function escape(str) {
@@ -123,7 +132,7 @@ $(document).ready(function () {
         `<span class="tweet-icons">
           <a href="#"><i class="material-icons">flag</i></a>
           <a href="#"><i class="material-icons">repeat</i></a>
-          <a href="#"><i class="material-icons">favorite</i></a>
+          10<a href="#"><i class="material-icons">favorite</i></a>
         </span>`);
     });
   $('#tweet-cards').on('mouseleave', '.card',

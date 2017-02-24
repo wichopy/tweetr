@@ -50,13 +50,14 @@ MongoClient.connect(MONGODB_URI, (err, database) => {
   db = database;
 
   //pass db into helpers and listen once database is connect!
+
   const DataHelpers = require("./lib/data-helpers.js")(db);
-
   const tweetsRoutes = require("./routes/tweets")(DataHelpers);
-  const userRoutes = require("./routes/users")(db);
-
+  const usersRoutes = require("./routes/users")(db);
+  const likesRoutes = require("./routes/likes")(db);
   app.use("/tweets", tweetsRoutes);
-  app.use("/users", userRoutes);
+  app.use("/users", usersRoutes);
+  app.use("/likes", likesRoutes);
 
   app.listen(PORT, () => {
     console.log("Example app listening on port " + PORT);
