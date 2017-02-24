@@ -59,7 +59,9 @@ module.exports = function (db) {
       let userData = {
         user_id: user_id,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        handle: req.body.handle,
+        name: req.body.name
       };
       register(userData, (err, valid) => {
         if (valid) {

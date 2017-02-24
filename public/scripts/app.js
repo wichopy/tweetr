@@ -32,7 +32,7 @@ function createTweetElement(data) {
   // console.log(data);
   return `<article class="card">
             <header class="card-header">
-              <img src='${data.user.avatars.regular}' class="card-pp">
+              <img src='${data.user.avatar}' class="card-pp">
               <span class="card-user">${data.user.name} </span>
               <span class='card-handle'>${data.user.handle}</span>
             </header>
@@ -178,7 +178,7 @@ $(document).ready(function () {
     // console.log(ev.target);
     console.log(ev.target.id);
     let inputs = ev.target.getElementsByTagName('input');
-    // console.log(inputs.email.value);
+    console.log(inputs);
     // console.log(inputs.password.value);
     // console.log(ev.target.getElementsByTagName('input'));
     //console.log("Les register");
@@ -192,6 +192,8 @@ $(document).ready(function () {
           _method: "PUT",
           // email: $(this).find("input#reg_email"),
           // password: $(this).find("input#reg_password")
+          handle: inputs.handle.value,
+          name: inputs.name.value,
           email: inputs.email.value,
           password: inputs.password.value
         }
@@ -222,20 +224,7 @@ $(document).ready(function () {
           $(".new-tweet").show(2000);
           $("#logout").show(2000);
         }
-        // console.log($.cookie());
       });
     }
-    // });
-    // $(".login-body").on("submit", function (ev) {
-    //   ev.preventDefault();
-    //   let email = $(this).find("input#email").val();
-    //   let password = $(this).find("input#password").val();
-    //   // console.log($(this).find('input#email').val());
-    //   if (!email || !password) {
-    //     alert("no username entered or password!");
-    //   } else {
-    //     var formdata = { email: email, password: password };
-
-    //   }
   });
 });
