@@ -4,8 +4,8 @@ const express = require('express');
 // const app = express();
 const userRoutes = express.Router();
 // app.use(userRoutes);
-const bcrypt = require('bcrypt');
-const rendomString = require('../lib/util/randomString');
+
+const randomString = require('../lib/util/randomString');
 // app.use(cookieParser());
 // app.use(cookieSession());
 module.exports = function (db) {
@@ -39,10 +39,53 @@ module.exports = function (db) {
     });
   }
 
+  function register(userData, register_cb) {
+    db.collection('users').insertOne(userData, (err, result) => {
+      if (err) {
+        return register_cb(err);
+      } else {
+        register_cb(null, true);
+      }
+    });
+  }
   //routes for user authentication
 
+  //register
+  userRoutes.put("/", function (req, res) {
+    if (req.session.user_id) {
+      res.status(403).send("dont need to be here");
+    } else {
+      let user_id = randomString();
+      let userData = {
+        user_id: user_id,
+        email: req.body.email,
+        password: req.body.password
+      };
+      register(userData, (err, valid) => {
+        if (valid) {
+          req.session.user_id = user_id;
+          res.json({ cookie: "cookies on" });
+        } else {
+          res.status(301).send("something went wrong with registration");
+        }
+      });
+    }
+  });
+  //logout
+  userRoutes.delete("/", function (req, res) {
+    if (req.session.user_id) {
+      console.log("in route for delete");
+      console.log(req.body);
+      console.log(req.session.user_id);
+      req.session = null;
+      res.status(200).send();
+    } else {
+      res.status(403).send("you shouldn't be here");
+    }
+    // res.json()
+  });
   userRoutes.post("/", function (req, res) {
-    console.log('post works!');
+    console.log('post works! req.body is :');
     console.log(req.body);
     login(req.body.email, req.body.password, function (err, valid) {
       if (err || !valid) {
@@ -57,10 +100,10 @@ module.exports = function (db) {
         console.log("req.session:");
         console.log(req.session);
         // console.log(cookieSession);
-        req.session.user_id = '123poi';
+        req.session.user_id = valid;
         console.log(req.session.user_id);
         console.log(res.cookie);
-        res.status(200).send();
+        res.json({ cookie: "cookies on" });
       }
     });
     // db.users.insertOne(req.body.)

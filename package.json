@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/index.js",
-    "local": "./node_modules/.bin/nodemon --watch server -e js server/index.js"
+    "local": "./node_modules/.bin/nodemon --watch -L server -e js server/index.js"
   },
   "author": "Lighthouse Labs",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-alpha.2",
     "express": "^4.13.4",
+    "express-trace": "0.0.3",
     "md5": "^2.1.0",
     "method-override": "^2.3.7",
     "mongodb": "^2.2.24"

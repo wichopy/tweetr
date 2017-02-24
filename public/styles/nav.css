@@ -44,6 +44,14 @@
     margin-top: 20px;
 }
 
+#login-register.hidden {
+    display: none;
+}
+
+.compose-btn.hidden {
+    display: none;
+}
+
 .compose-btn:hover {
     float: right;
     line-height: 40px;

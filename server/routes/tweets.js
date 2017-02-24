@@ -10,7 +10,11 @@ module.exports = function (DataHelpers) {
         console.log("error getting tweets");
         res.status(500).json({ error: err.message });
       } else {
-        res.json(tweets);
+        if (req.session.user_id) {
+          res.json({ tweets: tweets, cookie: "cookies on" });
+        } else {
+          res.json({ tweets: tweets });
+        }
       }
     });
   });

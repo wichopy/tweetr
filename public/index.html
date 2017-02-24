@@ -36,6 +36,10 @@
             <span class="header">Tweeter</span>
             <button id="login-register"> Login / Register </button>
             <a href='#' class="compose-btn" type='button'>Compose</a>
+            <form id="logout" method=POST name='_method' action="/users/">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="reset" value="logout">
+            </form>
         </div>
     </nav>
 
@@ -45,37 +49,37 @@
             <h2>Compose Tweet</h2>
             <form method="POST" action="/tweets/">
                 <textarea name="text" placeholder="What are you humming about?"></textarea>
-                <input id='tweet-button' type="submit" value="Tweet">
+                <input id='tweet-button ' type="submit" value="Tweet">
                 <span class="counter">140</span>
             </form>
         </section>
         <div id="tweet-cards">
             <!--<article class="card">
                 <header class="card-header">
-                    <img src='/images/musk.jpg' class="card-pp">
+                    <img src='/images/musk.jpg ' class="card-pp">
                     <span class="card-user">Elon Musk </span>
-                    <span class='card-handle'>@elonmusk.</span>
+                    <span class='card-handle '>@elonmusk.</span>
                 </header>
                 <div class="card-content">
-                    <p>The future of humanity is going to bifurcate in two directions: Either it's going to become multiplanetary, or it's going to remain confined to one planet and eventually there's going to be an extinction event.</p>
-                </div>
-                <footer class="card-footer">
-                    5 hours ago
-                </footer>
-            </article>
-            <article class="card">
-                <header class="card-header">
-                    <img src='/images/stephc.jpg' class="card-pp">
-                    <span class="card-user">Steph Curry </span>
-                    <span class='card-handle'>@scurry.</span>
-                </header>
-                <div class="card-content">
-                    <p>Three pointers.</p>
-                </div>
-                <footer class="card-footer">
-                    5 days ago
-                </footer>
-            </article>-->
+                    <p>The future of humanity is going to bifurcate in two directions: Either it's going to become multiplanetary, or it 's going to remain confined to one planet and eventually there's going to be an extinction event.</p>
+        </div>
+        <footer class="card-footer">
+            5 hours ago
+        </footer>
+        </article>
+        <article class="card">
+            <header class="card-header">
+                <img src='/images/stephc.jpg' class="card-pp">
+                <span class="card-user">Steph Curry </span>
+                <span class='card-handle'>@scurry.</span>
+            </header>
+            <div class="card-content">
+                <p>Three pointers.</p>
+            </div>
+            <footer class="card-footer">
+                5 days ago
+            </footer>
+        </article>-->
         </div>
     </main>
     <!-- The Modal -->
@@ -89,6 +93,7 @@
             </div>
             <div class="login-body">
                 <h1>Your door to tweetness </h1>
+                <h3>Login</h3>
                 <form method="POST" action="/login">
                     <div>
                         <label for="email">email:</label>
@@ -99,6 +104,18 @@
                         <input type="password" id="password" name="password" />
                     </div>
                     <input type="submit" value="Submit" id="submit">
+                </form>
+                <H3>REGISTER</H3>
+                <form id="register" method="" action="">
+                    <div>
+                        <label for="email">email:</label>
+                        <input type="email" id="reg_email" name="email" />
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="reg_password" name="password" />
+                    </div>
+                    <input type="reset" value="Register" id="reg_submit">
                 </form>
             </div>
             <div class="modal-footer">

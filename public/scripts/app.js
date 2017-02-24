@@ -83,7 +83,18 @@ function loadTweets() {
       method: 'GET',
     })
     .done(function (data) {
-      renderTweets(data);
+      console.log(data);
+      renderTweets(data.tweets);
+      if (data.cookie) {
+        $("#login-register").hide();
+        $(".new-tweet").show(2000);
+        $('#logout').show(2000);
+      } else {
+        $(".compose-btn").toggleClass("hidden");
+        $(".new-tweet").hide();
+        $("#logout").hide();
+
+      }
     });
 }
 
@@ -121,6 +132,22 @@ $(document).ready(function () {
       $(this).find(".tweet-icons").remove();
     }
   );
+  $("#logout").on('reset', function (event) {
+    event.preventDefault;
+    console.log("logging out");
+    $.ajax({
+        url: "/users/",
+        method: 'POST',
+        data: { '_method': 'DELETE' }
+      })
+      .done(() => {
+        console.log("logout successful");
+        $("#login-register").show(2000);
+        $(".compose-btn").toggleClass("hidden");
+        $(".new-tweet").hide(2000);
+        $('#logout').hide(2000);
+      });
+  });
   //var $tweet = createTweetElement(tweetData);
   $(".new-tweet").on("submit", function (event) {
     event.preventDefault(); //doesn;t let browser do its actions.
@@ -145,6 +172,28 @@ $(document).ready(function () {
         });
     }
   });
+  $("#reg_submit").on('click', function (ev) {
+    console.log(ev);
+    ev.preventDefault();
+    console.log("Les register");
+    console.log($(this).find("input#reg_email"));
+    console.log($(this).find("input#reg_password"));
+    $.ajax({
+      url: "/users/",
+      method: "POST",
+      data: {
+        _method: "PUT",
+        email: $(this).find("input#reg_email"),
+        password: $(this).find("input#reg_password")
+      }
+    }).done(() => {
+      console.log("done registering!");
+      $("#login-register").hide(2000);
+      $(".compose-btn").show(2000);
+      $(".new-tweet").show(2000);
+      $("#logout").show(2000);
+    });
+  })
   $(".login-body").on("submit", function (ev) {
     ev.preventDefault();
     let email = $(this).find("input#email").val();
@@ -153,23 +202,24 @@ $(document).ready(function () {
     if (!email || !password) {
       alert("no username entered or password!");
     } else {
-      var formdata = $(this).find('form').serialize();
+      var formdata = { email: email, password: password };
       $.ajax({
           url: "/users/",
           method: "POST",
           data: formdata
         })
-        .then((data) => {
-          console.log(`Successful post! this is your response! ${data}`);
+        .done((data) => {
+          console.log("data from response:");
+          console.log(data)
+          document.getElementById('myModal').style.display = "none";
+          if (data.cookie) {
+            $("#login-register").hide(2000);
+            $(".compose-btn").show(2000);
+            $(".new-tweet").show(2000);
+            $("#logout").show(2000);
+          }
+          // console.log($.cookie());
         });
     }
   });
-  $(document).on('cookieUpdate', function () {
-    console.log("found cookie!");
-    //close menu
-    //add compose button
-    //turn off login button
-    //add logout button
-  });
-  $(document).trigger('cookieUpdate');
 });
