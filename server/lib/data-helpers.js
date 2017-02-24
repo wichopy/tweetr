@@ -7,12 +7,17 @@
 // passed in from the mongo connect function.
 module.exports = function makeDataHelpers(db) {
   return {
-    saveTweet: function (newTweet, callback) {
-      db.collection("tweets").insertOne(newTweet, (err, result) => {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, true);
+    saveTweet: function (newTweet, userId, saveTweet_callback) {
+      console.log(newTweet);
+      console.log(userId);
+      db.collection('users').findOne({ 'user_id': userId }, (err, user) => {
+        newTweet.user.handle = user.email;
+        db.collection("tweets").insertOne(newTweet, (err, result) => {
+          if (err) {
+            return saveTweet_callback(err);
+          }
+          saveTweet_callback(null, true);
+        });
       });
     },
     // Get all tweets in `db`, sorted by newest first

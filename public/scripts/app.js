@@ -178,8 +178,8 @@ $(document).ready(function () {
     // console.log(ev.target);
     console.log(ev.target.id);
     let inputs = ev.target.getElementsByTagName('input');
-    console.log(inputs.email.value);
-    console.log(inputs.password.value);
+    // console.log(inputs.email.value);
+    // console.log(inputs.password.value);
     // console.log(ev.target.getElementsByTagName('input'));
     //console.log("Les register");
     //console.log($(this).find("input#reg_email"));
