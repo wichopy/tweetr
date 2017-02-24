@@ -88,9 +88,9 @@ function loadTweets() {
       if (data.cookie) {
         $("#login-register").hide();
         $(".new-tweet").show(2000);
-        $('#logout').show(2000);
+        $('#logout').show();
       } else {
-        $(".compose-btn").toggleClass("hidden");
+        $(".compose-btn").hide()
         $(".new-tweet").hide();
         $("#logout").hide();
 
@@ -143,7 +143,7 @@ $(document).ready(function () {
       .done(() => {
         console.log("logout successful");
         $("#login-register").show(2000);
-        $(".compose-btn").toggleClass("hidden");
+        $(".compose-btn").hide(2000);
         $(".new-tweet").hide(2000);
         $('#logout').hide(2000);
       });
@@ -172,54 +172,70 @@ $(document).ready(function () {
         });
     }
   });
-  $("#reg_submit").on('click', function (ev) {
-    console.log(ev);
+  $("form").on('submit', function (ev) {
+    //console.log(ev);
     ev.preventDefault();
-    console.log("Les register");
-    console.log($(this).find("input#reg_email"));
-    console.log($(this).find("input#reg_password"));
-    $.ajax({
-      url: "/users/",
-      method: "POST",
-      data: {
-        _method: "PUT",
-        email: $(this).find("input#reg_email"),
-        password: $(this).find("input#reg_password")
-      }
-    }).done(() => {
-      console.log("done registering!");
-      $("#login-register").hide(2000);
-      $(".compose-btn").show(2000);
-      $(".new-tweet").show(2000);
-      $("#logout").show(2000);
-    });
-  })
-  $(".login-body").on("submit", function (ev) {
-    ev.preventDefault();
-    let email = $(this).find("input#email").val();
-    let password = $(this).find("input#password").val();
-    // console.log($(this).find('input#email').val());
-    if (!email || !password) {
-      alert("no username entered or password!");
-    } else {
-      var formdata = { email: email, password: password };
+    // console.log(ev.target);
+    console.log(ev.target.id);
+    let inputs = ev.target.getElementsByTagName('input');
+    console.log(inputs.email.value);
+    console.log(inputs.password.value);
+    // console.log(ev.target.getElementsByTagName('input'));
+    //console.log("Les register");
+    //console.log($(this).find("input#reg_email"));
+    //console.log($(this).find("input#reg_password"));
+    if (ev.target.id === 'register') {
       $.ajax({
-          url: "/users/",
-          method: "POST",
-          data: formdata
-        })
-        .done((data) => {
-          console.log("data from response:");
-          console.log(data)
-          document.getElementById('myModal').style.display = "none";
-          if (data.cookie) {
-            $("#login-register").hide(2000);
-            $(".compose-btn").show(2000);
-            $(".new-tweet").show(2000);
-            $("#logout").show(2000);
-          }
-          // console.log($.cookie());
-        });
+        url: "/users/",
+        method: "POST",
+        data: {
+          _method: "PUT",
+          // email: $(this).find("input#reg_email"),
+          // password: $(this).find("input#reg_password")
+          email: inputs.email.value,
+          password: inputs.password.value
+        }
+      }).done(() => {
+        console.log("done registering!");
+        document.getElementById('myModal').style.display = "none";
+        $("#login-register").hide(2000);
+        $(".compose-btn").show(2000);
+        $(".new-tweet").show(2000);
+        $("#logout").show(2000);
+      });
     }
+    if (ev.target.id === 'login') {
+      $.ajax({
+        url: "/users/",
+        method: "POST",
+        data: {
+          email: inputs.email.value,
+          password: inputs.password.value
+        }
+      }).done((data) => {
+        console.log("data from response:");
+        console.log(data)
+        document.getElementById('myModal').style.display = "none";
+        if (data.cookie) {
+          $("#login-register").hide(2000);
+          $(".compose-btn").show(2000);
+          $(".new-tweet").show(2000);
+          $("#logout").show(2000);
+        }
+        // console.log($.cookie());
+      });
+    }
+    // });
+    // $(".login-body").on("submit", function (ev) {
+    //   ev.preventDefault();
+    //   let email = $(this).find("input#email").val();
+    //   let password = $(this).find("input#password").val();
+    //   // console.log($(this).find('input#email').val());
+    //   if (!email || !password) {
+    //     alert("no username entered or password!");
+    //   } else {
+    //     var formdata = { email: email, password: password };
+
+    //   }
   });
 });
