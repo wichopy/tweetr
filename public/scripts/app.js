@@ -64,9 +64,9 @@ function createTweetElement(data) {
 }
 
 function updateDisplayLikes(tweetId, updateLikes) {
-  $("#" + tweetId).closest('.card-footer').attr('data-likes', `"${updateLikes}"`);
+  $("#" + tweetId).closest('.card-footer').attr('data-likes', updateLikes);
   // likes = updateLikes;
-  console.log($("#" + tweetId).closest('.card-footer').attr('data-likes'));
+  // console.log($("#" + tweetId).closest('.card-footer').attr('data-likes'));
   // $(this).find(tweetId).data("likes") = updatedLikes;
 }
 
@@ -123,7 +123,7 @@ $(document).ready(function () {
         method: "POST",
         data: {
           tweetId: tweetId,
-          '_method': "PATCH"
+          '_method': "PUT"
         }
       }).done((data) => {
         // console.log("liked");
@@ -138,9 +138,9 @@ $(document).ready(function () {
     //can only use fat arrow if I look at the event, this would return the entire document.
     //tried to use fat arrow but functionality was horrible, icons would not disappear sometimes 
     //and other times they wouldnt appear at all.
-    function () {
-      let likes = $(this).find('.card-footer').data('likes');
-      console.log(likes);
+    function (ev) {
+      let likes = $(ev.target).children('.card-footer').attr("data-likes"); //Not sure why if I hover over content it doesnttarget properly.
+      console.log($(ev.target).html()); //Need to fi bug of number updating after I hover off and back on.
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
           <a href="javascript:;"><i class="material-icons">flag</i></a>

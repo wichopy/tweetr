@@ -5,7 +5,7 @@ const express = require('express');
 const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
 
-  tweetsRoutes.patch("/", function (req, res) {
+  tweetsRoutes.put("/", function (req, res) {
     console.log("in update like route");
     var cookie = req.session.user_id;
     console.log(cookie);

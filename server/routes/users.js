@@ -61,7 +61,8 @@ module.exports = function (db) {
         email: req.body.email,
         password: req.body.password,
         handle: req.body.handle,
-        name: req.body.name
+        name: req.body.name,
+        avatar: "./images/no_pic.png"
       };
       register(userData, (err, valid) => {
         if (valid) {

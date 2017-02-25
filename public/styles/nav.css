@@ -44,8 +44,15 @@
     margin-top: 20px;
 }
 
-#login-register.hidden {
-    display: none;
+#login-register {
+    float: right;
+    line-height: 40px;
+}
+
+#logout {
+    float: right;
+    /*line-height: 40px;*/
+    padding: 10px;
 }
 
 .compose-btn.hidden {
