@@ -74,7 +74,14 @@ module.exports = function makeDataHelpers(db) {
               return;
             }
             // console.log(err, valid);
-            db_updateLikes_cb(null, valid);
+            db.collection('tweets').findOne({ '_id': o_id }, (err, tweet) => {
+              if (err) {
+                db_updateLikes_cb(err);
+              }
+              console.log("returning tweet");
+              db_updateLikes_cb(null, tweet);
+            });
+
           }
         );
       }

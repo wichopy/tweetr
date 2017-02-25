@@ -21,7 +21,7 @@ module.exports = function (DataHelpers) {
         } else {
           console.log("SENDING!");
           // console.log(valid);
-          res.status(200).send();
+          res.json(valid);
         }
       });
     }

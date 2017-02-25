@@ -3,6 +3,8 @@
  * jQuery is already loaded
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
+let glob_cookie = false;
+
 function timeAgo(timestamp) {
   let time = new Date() - timestamp; //find time difference between today and posted date.
   time = time / 1000; //convert from milliseconds to seconds.
@@ -29,11 +31,7 @@ function timeAgo(timestamp) {
 }
 
 function createTweetElement(data) {
-  // console.log(data);
   if (data.likes) {
-    // console.log("creating HTML with likes");
-    // console.log(data._id);
-    //each tweet will have a likes array, return the length of array in the data attribute.
     return `<article class="card">
               <header class="card-header">
                 <img src='${data.user.avatar}' class="card-pp">
@@ -43,13 +41,11 @@ function createTweetElement(data) {
               <div class="card-content">
                 <p>${data.content.text}</p>
               </div>
-              <footer class="card-footer"  data-tweetid = "${data._id}"data-likes="${data.likes.length}">
+              <footer class="card-footer" id = "${data._id}" data-tweetid = "${data._id}" data-likes="${data.likes.length}">
                 ${timeAgo(data.created_at)}
               </footer>
             </article>`;
   } else {
-    // console.log("creating HTML");
-    // console.log(data._id);
     return `<article class="card" >
               <header class="card-header">
                 <img src='${data.user.avatar}' class="card-pp">
@@ -59,7 +55,7 @@ function createTweetElement(data) {
               <div class="card-content">
                 <p>${data.content.text}</p>
               </div>
-              <footer class="card-footer" data-tweetid = "${data._id}"data-likes="0">
+              <footer class="card-footer" id = "${data._id}" data-tweetid = "${data._id}" data-likes="0">
                 ${timeAgo(data.created_at)}
               </footer>
             </article>`;
@@ -67,39 +63,17 @@ function createTweetElement(data) {
 
 }
 
+function updateDisplayLikes(tweetId, updateLikes) {
+  $("#" + tweetId).closest('.card-footer').attr('data-likes', `"${updateLikes}"`);
+  // likes = updateLikes;
+  console.log($("#" + tweetId).closest('.card-footer').attr('data-likes'));
+  // $(this).find(tweetId).data("likes") = updatedLikes;
+}
 
 function renderTweets(tweetData) {
   tweetData = tweetData.map(createTweetElement);
-  // createTweetElement(tweetData);
   //use map not for loop, less expensive.
   $('#tweet-cards').html(tweetData);
-  //Some fun tweets for testing.
-  // $('#tweet-cards').prepend(`
-  //           <article class="card">
-  //               <header class="card-header">
-  //                   <img src='/images/musk.jpg' class="card-pp">
-  //                   <span class="card-user">Elon Musk </span>
-  //                   <span class='card-handle'>@elonmusk.</span>
-  //               </header>
-  //               <div class="card-content">
-  //                   <p>The future of humanity is going to bifurcate in two directions: Either it's going to become multiplanetary, or it's going to remain confined to one planet and eventually there's going to be an extinction event.</p>
-  //               </div>
-  //               <footer class="card-footer">
-  //                   5 hours ago
-  //               </footer>
-  //           </article>
-  //           <article class="card">
-  //               <header class="card-header">
-  //                   <img src='/images/stephc.jpg' class="card-pp">
-  //                   <span class="card-user">Steph Curry </span>
-  //                   <span class='card-handle'>@scurry.</span>
-  //               </header>
-  //               <div class="card-content">
-  //                   <p>Three pointers.</p>
-  //               </div>
-  //               <footer class="card-footer">
-  //                   5 days ago
-  //               </footer>`);
 }
 
 function loadTweets() {
@@ -107,13 +81,12 @@ function loadTweets() {
     url: '/tweets/',
     method: 'GET'
   }).done((tweetData) => {
-    // console.log(tweetData.tweets);
-    // console.log(data);
     renderTweets(tweetData.tweets);
     if (tweetData.cookie) {
       $("#login-register").hide();
       $(".new-tweet").show(2000);
-      $('#logout').show();
+      $('#logout').show(2000);
+      glob_cookie = true;
     } else {
       $(".compose-btn").hide()
       $(".new-tweet").hide();
@@ -131,28 +104,33 @@ function escape(str) {
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function () {
   loadTweets();
+  //toggle compose button
   $('.compose-btn').on('click', function () {
     var composebox = $(".new-tweet");
     composebox.slideToggle();
     composebox.find('textarea').focus();
   });
+
+  //like tweet server request.
   $(".content-wrapper").on('click', '.favorite', function (ev) {
     ev.preventDefault;
     // console.log(ev.target);
-    var target = $(ev.target);
+    var tweetId = $(ev.target).closest('.card-footer').data('tweetid');
     // console.log(ev.target.parentElement.parentElement.parentNode.parentNode);
-    console.log(target.closest('.card-footer').data('tweetid')); //.parents().find(".card-footer").data('tweetid')
-    $.ajax({
-      url: "/tweets/",
-      method: "POST",
-      data: {
-        tweetId: target.closest('.card-footer').data('tweetid'),
-        '_method': "PATCH"
-      }
-    }).done((data) => {
-      console.log("liked");
-      console.log(data);
-    });
+    if (glob_cookie) {
+      $.ajax({
+        url: "/tweets/",
+        method: "POST",
+        data: {
+          tweetId: tweetId,
+          '_method': "PATCH"
+        }
+      }).done((data) => {
+        // console.log("liked");
+        // console.log(data);
+        updateDisplayLikes(tweetId, data.likes.length);
+      });
+    }
   });
   //need to use dynamic listener!
   $('#tweet-cards').on('mouseenter', '.card',
@@ -161,11 +139,13 @@ $(document).ready(function () {
     //tried to use fat arrow but functionality was horrible, icons would not disappear sometimes 
     //and other times they wouldnt appear at all.
     function () {
+      let likes = $(this).find('.card-footer').data('likes');
+      console.log(likes);
       $(this).find('.card-footer').append(
         `<span class="tweet-icons">
-          <a href="#"><i class="material-icons">flag</i></a>
-          <a href="#"><i class="material-icons">repeat</i></a>
-          <button><a href="#"><i class="material-icons favorite">favorite</i></a></button>
+          <a href="javascript:;"><i class="material-icons">flag</i></a>
+          <a href="javascript:;"><i class="material-icons">repeat</i></a>
+         ${likes}  <a href="javascript:;"><i class="material-icons favorite"> favorite</i></a>
         </span>`);
     });
   $('#tweet-cards').on('mouseleave', '.card',
@@ -188,6 +168,7 @@ $(document).ready(function () {
         $(".compose-btn").hide(2000);
         $(".new-tweet").hide(2000);
         $('#logout').hide(2000);
+        glob_cookie = false;
       });
   });
   //var $tweet = createTweetElement(tweetData);
@@ -239,13 +220,15 @@ $(document).ready(function () {
           email: inputs.email.value,
           password: inputs.password.value
         }
-      }).done(() => {
+      }).done((data) => {
         console.log("done registering!");
         document.getElementById('myModal').style.display = "none";
-        $("#login-register").hide(2000);
+        if (data.cookie)
+          $("#login-register").hide(2000);
         $(".compose-btn").show(2000);
         $(".new-tweet").show(2000);
         $("#logout").show(2000);
+        glob_cookie = true;
       });
     }
     if (ev.target.id === 'login') {
@@ -265,6 +248,7 @@ $(document).ready(function () {
           $(".compose-btn").show(2000);
           $(".new-tweet").show(2000);
           $("#logout").show(2000);
+          glob_cookie = true;
         }
       });
     }
