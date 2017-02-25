@@ -9,6 +9,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 const app = express();
+const assert = require('assert');
 // const track = require('express-tracking');
 // app.use(track());
 // const trace = require('express-trace');

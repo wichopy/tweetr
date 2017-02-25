@@ -4,6 +4,28 @@ const userHelper = require("../lib/util/user-helper")
 const express = require('express');
 const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
+
+  tweetsRoutes.patch("/", function (req, res) {
+    console.log("in update like route");
+    var cookie = req.session.user_id;
+    console.log(cookie);
+    var tweetId = req.body.tweetId;
+    if (!cookie) {
+      res.status(500).send("not allows to like if not logged in.");
+    } else {
+      //update likes on a tweet.
+      DataHelpers.updateLikes(cookie, tweetId, function (err, valid) {
+        if (err) {
+          console.log(err);
+          res.status(401).send();
+        } else {
+          console.log("SENDING!");
+          // console.log(valid);
+          res.status(200).send();
+        }
+      });
+    }
+  });
   tweetsRoutes.get("/", function (req, res) {
     DataHelpers.getTweets((err, tweets) => {
       if (err) {
