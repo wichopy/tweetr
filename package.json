@@ -17,6 +17,7 @@
     "chance": "^1.0.2",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-alpha.2",
+    "env": "0.0.2",
     "express": "^4.13.4",
     "express-trace": "0.0.3",
     "express-tracking": "^1.0.1",
