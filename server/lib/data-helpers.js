@@ -5,8 +5,46 @@
 // Defines helper functions for saving and getting tweets, using the database `db`
 // passed in from the mongo connect function.
 module.exports = function makeDataHelpers(db) {
-  const mongo = require('mongodb');
+  const mongo = require('mongodb'); // need this in order to create ObjectId's for querying.
   return {
+    getUsers: function (getUsers_cb) {
+      db.collection('users').find().toArray((err, users) => {
+        if (err) {
+          return getUsers_cb(err);
+        }
+        getUsers_cb(null, users);
+      });
+    },
+    //db request for logging in.
+    login: function (userEmail, userPassword, login_cb) {
+      db.collection('users').findOne({ email: userEmail }, (err, user) => {
+        if (err) {
+          return login_cb(err);
+        }
+        if (user) {
+          console.log(user);
+          if (user.password == userPassword) {
+            // db.collection('users').findOne()
+            return login_cb(null, user.user_id);
+          }
+          console.log("Password was wrong");
+          return login_cb(null, false);
+        } else {
+          console.log("could not find user");
+          return login_cb(null, false);
+        }
+      });
+    },
+
+    register: function (userData, register_cb) {
+      db.collection('users').insertOne(userData, (err, result) => {
+        if (err) {
+          return register_cb(err);
+        } else {
+          register_cb(null, true);
+        }
+      });
+    },
     checkUserId: function (userId, checkId_callback) {
       console.log(`This is your userId: ${userId}`);
       //query database and see if ID exists. if itdoes, return an error. If it does, return true.

@@ -8,46 +8,9 @@ const userRoutes = express.Router();
 const randomString = require('../lib/util/randomString');
 // app.use(cookieParser());
 // app.use(cookieSession());
-module.exports = function (db) {
+module.exports = function (DataHelpers) {
   //db request for getting users:
-  function getUsers(getUsers_cb) {
-    db.collection('users').find().toArray((err, users) => {
-      if (err) {
-        return getUsers_cb(err);
-      }
-      getUsers_cb(null, users);
-    });
-  }
-  //db request for logging in.
-  function login(userEmail, userPassword, login_cb) {
-    db.collection('users').findOne({ email: userEmail }, (err, user) => {
-      if (err) {
-        return login_cb(err);
-      }
-      if (user) {
-        console.log(user);
-        if (user.password == userPassword) {
-          // db.collection('users').findOne()
-          return login_cb(null, user.user_id);
-        }
-        console.log("Password was wrong");
-        return login_cb(null, false);
-      } else {
-        console.log("could not find user");
-        return login_cb(null, false);
-      }
-    });
-  }
 
-  function register(userData, register_cb) {
-    db.collection('users').insertOne(userData, (err, result) => {
-      if (err) {
-        return register_cb(err);
-      } else {
-        register_cb(null, true);
-      }
-    });
-  }
   //routes for user authentication
 
   //register
@@ -64,7 +27,7 @@ module.exports = function (db) {
         name: req.body.name,
         avatar: "./images/no_pic.png"
       };
-      register(userData, (err, valid) => {
+      DataHelpers.register(userData, (err, valid) => {
         if (valid) {
           req.session.user_id = user_id;
           res.json({ cookie: "cookies on" });
@@ -90,7 +53,7 @@ module.exports = function (db) {
   userRoutes.post("/", function (req, res) {
     console.log('post works! req.body is :');
     console.log(req.body);
-    login(req.body.email, req.body.password, function (err, valid) {
+    DataHelpers.login(req.body.email, req.body.password, function (err, valid) {
       if (err || !valid) {
         console.log("something went wrong with login");
         res.status(500).send("login didint work");
@@ -114,7 +77,7 @@ module.exports = function (db) {
 
 
   userRoutes.get("/", function (req, res) {
-    getUsers((err, users) => {
+    DataHelpers.getUsers((err, users) => {
       if (err) {
         res.status(500).send("something went wrong :(");
       } else {

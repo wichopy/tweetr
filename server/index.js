@@ -54,11 +54,11 @@ MongoClient.connect(MONGODB_URI, (err, database) => {
 
   const DataHelpers = require("./lib/data-helpers.js")(db);
   const tweetsRoutes = require("./routes/tweets")(DataHelpers);
-  const usersRoutes = require("./routes/users")(db);
-  const likesRoutes = require("./routes/likes")(db);
+  const usersRoutes = require("./routes/users")(DataHelpers);
+  // const likesRoutes = require("./routes/likes")(db);
   app.use("/tweets", tweetsRoutes);
   app.use("/users", usersRoutes);
-  app.use("/likes", likesRoutes);
+  // app.use("/likes", likesRoutes);
 
   app.listen(PORT, () => {
     console.log("Example app listening on port " + PORT);
