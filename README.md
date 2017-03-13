@@ -1,4 +1,4 @@
-![alt text](https://d.pr/i/1eyEY/4MEH16BY+ "Preview of the app.")
+![alt text](https://github.com/wichopy/tweetr/blob/master/tweeter.gif "Preview of the app.")
 
 # Tweeter Project
 
